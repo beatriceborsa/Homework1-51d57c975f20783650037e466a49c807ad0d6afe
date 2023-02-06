@@ -30,7 +30,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Login"
+              $ref: "#/components/schemas/login"
         required: true
       responses:
         '201':
@@ -81,14 +81,14 @@ paths:
           content:
            application/json:
              schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/user'
         responses:
          '200':
           description: successful operation
           content:
             application/json:
               schema:
-               $ref: '#/components/schemas/User'   
+               $ref: '#/components/schemas/user'   
          '404':
           description: User not follow
         security:
@@ -122,14 +122,14 @@ paths:
           content:
            application/json:
              schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/user'
         responses:
          '200':
           description: successful operation
           content:
             application/json:
               schema:
-               $ref: '#/components/schemas/User'   
+               $ref: '#/components/schemas/user'   
          '404':
           description: User not ban
         security:
@@ -163,10 +163,10 @@ paths:
              content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/User'          
+                  $ref: '#/components/schemas/user'          
               application/xml:
                 schema:
-                  $ref: '#/components/schemas/User'
+                  $ref: '#/components/schemas/user'
            '400':
              description: Invalid Username supplied
            '404':
@@ -204,7 +204,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Photo'
+                $ref: '#/components/schemas/photo'
       security:
          - bearerAuth: []    
    delete:
@@ -237,7 +237,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Photo'
+              $ref: '#/components/schemas/photo'
       responses:
         default:
           description: successful operation
@@ -273,14 +273,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Comment'
+              $ref: '#/components/schemas/comment'
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommentArray'
+                $ref: '#/components/schemas/commentsList'
         '405':
           description: Invalid input
       security:
@@ -536,334 +536,201 @@ components:
       description: "ban of user"  
        
    schemas:
-
-      User:
-       type: object
-       properties:
+   
+    user:
+      title: User 
+      description: User schema.
+      type: object
+      properties:
         identifier:
-          description: Unique identifier.
-          type: string
-          pattern: '^.*?$'
-          example: "3737"
-          minLength: 3
-          maxLength: 16
-        username:
-          type: string
-          example: Bea
-      Login:        
-        title: Login
-        description: Login.
-        type: object
-        properties:
-          username:
-           description: user
-           type: string
-           example: Beatrice
-           pattern: '^.*?$'
-           minLength: 3
-           maxLength: 16
-
-      UserProfile:
-        type: object
-        properties:
-         identifier:
-          description: Unique identifier.
-          type: string
-          pattern: '^.*?$'
-          example: "314"
-          minLength: 3
-          maxLength: 16
-         id:
-          description: Unique identifier.
-          type: string
-          pattern: '^.*?$'
-          example: "2424"
-          minLength: 3
-          maxLength: 16  
-         username:
-          type: string
-          example: bea
-         followersInc:
-          description: Number of followers
-          type: integer
-          example: 0
-          minimum: 0
-          maximum: 9999
-         followingsInc:
-          description: Number of followings
-          type: integer
-          example: 0
-          minimum: 0
-          maximum: 9999
-         photoInc:
-          description: Number of photos
-          type: integer
-          example: 0
-          minimum: 0
-          maximum: 9999
-         iffollow:
-          description: User follow status
-          type: boolean
-          example: false
-         ifban:
-          description: User ban status
-          type: boolean
-          example: false
-         ifbanned:
-          description: Check if user is banned
-          type: boolean
-          example: false        
-
-      Ban:
-        type: object
-        properties:
-         banid:
-          description: banid.
-          type: string
-          pattern: '^.*?$'
-          example: "234"
-          minLength: 3
-          maxLength: 16
-         userid:
-          description: userid.
-          type: string
-          pattern: '^.*?$'
-          example: "14"
-          minLength: 3
-          maxLength: 16
-         bannedid:
-          description: bannedid.
-          type: string
-          pattern: '^.*?$'
-          example: "142"
-          minLength: 3
-          maxLength: 16
-      Follow:
-        type: object
-        properties:
-         followid:
-          description: followid.
-          type: string
-          pattern: '^.*?$'
-          example: "4124"
-          minLength: 3
-          maxLength: 16
-         userid:
-          description: userid.
-          type: string
-          pattern: '^.*?$'
-          example: "414424"
-          minLength: 3
-          maxLength: 16
-         followedid:
-          description: followedid.
-          type: string
-          pattern: '^.*?$'
-          example: "4124"
-          minLength: 3
-          maxLength: 16     
-
-      PhotoArray:
-        type: object
-        properties:
-         identifier:
-          description: user identifier.
-          type: string
-          pattern: '^.*?$'
-          example: "4124" 
-          minLength: 3
-          maxLength: 16
-         userid:
-          description: user id.
-          type: string
-          pattern: '^.*?$'
-          example: "4141" 
-          minLength: 3
-          maxLength: 16
-         photos: 
-          description: list of photo
-          type: array
-          minItems: 0
-          maxItems: 99999
-          items:
-            type: object
-            properties:
-              phid: 
-                description: photo id.
-                type: string
-                pattern: '^.*?$'
-                example: "4124"
-                minLength: 3
-                maxLength: 16
-              userid:
-                description: userid.
-                type: string
-                pattern: '^.*?$'
-                example: "4141" 
-                minLength: 3
-                maxLength: 16
-              fileid: 
-                description: file
-                type: string
-                format: binary
-                minLength: 3
-                maxLength: 16
-              dateid:
-                description: date
-                type: string
-                format: date-time
-                example: "2022-11-02T09:00:00Z"
-                minLength: 3
-                maxLength: 9999
-              likeInc:
-                description: likes count
-                type: integer
-                example: 0
-                minimum: 0
-                maximum: 9999
-              commentInc:
-                description: photo count
-                type: integer
-                example: 0
-                minimum: 0
-                maximum: 9999
-              likestate:
-                description: like status
-                type: boolean
-                example: true
-      Photostream: 
-         title: Stream photo of users.
-         description: Stream photo.
-         type: object
-         properties:
-          identifier:
-           description: user id.
-           type: string
-           pattern: '^.*?$'
-           example: "312" 
-           minLength: 3
-           maxLength: 16
-          photos: 
-            description: list of photos
-            type: array
-            minItems: 0
-            maxItems: 99999
-          items:
-            type: object
-            properties:
-              arrayphid: 
-                description: phid.
-                type: string
-                pattern: '^.*?$'
-                example: "31323"
-                minLength: 3
-                maxLength: 16
-              userid:
-                description: userid.
-                type: string
-                pattern: '^.*?$'
-                example: "32132" 
-                minLength: 3
-                maxLength: 16
-              username:
-                description: User username.
-                type: string
-                pattern: '^.*?$'
-                example: bea
-                minLength: 3
-                maxLength: 16
-              fileid: 
-                description: file
-                type: string
-                format: binary
-                minLength: 3
-                maxLength: 16
-              dateid:
-                description: date.
-                type: string
-                format: date-time
-                example: "2022-11-02T09:00:00Z"
-                minLength: 3
-                maxLength: 9999
-              likeInc:
-                description: likes count
-                type: integer
-                example: 0
-                minimum: 0
-                maximum: 9999
-              commentInc:
-                description: photo count
-                type: integer
-                example: 0
-                minimum: 0
-                maximum: 9999
-              likestate:
-                description: like status
-                type: boolean
-                example: true
-      CommentArray: 
-        title: Comments
-        description: Comment
-        type: object
-        properties:
-         arraycommentid:
-          description: user identifier.
-          type: string
-          pattern: '^.*?$'
-          example: "1241"
-          minLength: 3
-          maxLength: 16
-         phid: 
-          description: photo identifier.
-          type: string
-          pattern: '^.*?$'
-          example: "2132"
-          minLength: 3
-          maxLength: 16
-         photouser:
           description: Unique user identifier.
           type: string
           pattern: '^.*?$'
-          example: "123"
+          example: "#U1234"
           minLength: 3
           maxLength: 16
-         comments: 
-          description: list of objects
+        username:
+          description: User username.
+          type: string
+          pattern: '^.*?$'
+          example: bea
+          minLength: 3
+          maxLength: 16
+  
+    profile:
+      title: Profile
+      description: Profile schema.
+      type: object
+      properties:
+        requestid:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+        identifier:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+        username:
+          description: User username.
+          type: string
+          pattern: '^.*?$'
+          example: bea
+          minLength: 3
+          maxLength: 16
+        followersCount:
+          description: Number of followers.
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+        followingsCount:
+          description: Number of followings.
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+        photoCount:
+          description: Number of photos.
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+        followStatus:
+          description: User follow status.
+          type: boolean
+          example: false
+        banStatus:
+          description: User ban status.
+          type: boolean
+          example: false
+        checkIfBanned:
+          description: Check if user is banned.
+          type: boolean
+          example: false
+    
+    ban:
+      title: Ban 
+      description: Ban schema.
+      type: object
+      properties:
+        banId:
+          description: banID schema.
+          type: string
+          pattern: '^.*?$'
+          example: "#B1234"
+          minLength: 3
+          maxLength: 16
+        bannedId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+        userId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+    
+    follow:
+      title: Follow 
+      description: Follow schema.
+      type: object
+      properties:
+        followId:
+          description: followID schema.
+          type: string
+          pattern: '^.*?$'
+          example: "#F1234"
+          minLength: 3
+          maxLength: 16
+        followedId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+        userId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+  
+    commentsList: 
+      title: Comments
+      description: Comments schema.
+      type: object
+      properties:
+        requestId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+        photoId: 
+          description:  Unique photo identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#P1234"
+          minLength: 3
+          maxLength: 16
+        photoOwner:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+        comments: 
+          description: list of objects (each object is a comment).
           type: array
           minItems: 0
           maxItems: 99999
           items:
             type: object
             properties:
-              commentid:
-                description: comment identifier.
+              id:
+                description: Unique comment identifier.
                 type: string
                 pattern: '^.*?$'
                 example: "#C1234"
                 minLength: 3
                 maxLength: 16
-              userid:
-                description: user identifier.
+              userId:
+                description: Unique user identifier.
                 type: string
                 pattern: '^.*?$'
-                example: "1231" 
+                example: "#U5678" 
                 minLength: 3
                 maxLength: 16
-              phid: 
-                description: photo identifier.
+              photoId: 
+                description:  Unique photo identifier.
                 type: string
                 pattern: '^.*?$'
                 example: "#P1234"
                 minLength: 3
                 maxLength: 16
-              photouser:
-                description: user identifier.
+              photoOwner:
+                description: Unique user identifier.
                 type: string
                 pattern: '^.*?$'
-                example: "1234"
+                example: "#U1234"
                 minLength: 3
                 maxLength: 16
-              photousernameuser:
+              photoOwnerUsername:
                 description: User username.
                 type: string
                 pattern: '^.*?$'
@@ -881,102 +748,258 @@ components:
                 description: Content of the comment.
                 type: string
                 pattern: '^.*?$'
-                example: "Mi piace la tua foto"
+                example: "Hello World!"
                 minLength: 2
                 maxLength: 30
-
-      Comment:
-          title: Comment
-          type: object
-          description: Comment
-          properties:
-           content:
-            description: content
-            type: string
-          example: Mi piace la tua foto.
+    
+    like:
+      title: Like 
+      description: Like schema.
+      type: object
+      properties:
+        likeId:
+          description: likeID schema.
+          type: string
           pattern: '^.*?$'
-          minLength: 1
-          maxLength: 40 
+          example: "#L1234"
+          minLength: 3
+          maxLength: 16
+        userId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U5678" 
+          minLength: 3
+          maxLength: 16
+        photoId: 
+          description:  Unique photo identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#P1234"
+          minLength: 3
+          maxLength: 16
+        photoOwner:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234"
+          minLength: 3
+          maxLength: 16
+    
+    photosList: 
+      title: Photos
+      description: Photos schema.
+      type: object
+      properties:
+        requestId:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234" 
+          minLength: 3
+          maxLength: 16
+        identifier:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234" 
+          minLength: 3
+          maxLength: 16
+        photos: 
+          description: list of objects (each object is a photo)
+          type: array
+          minItems: 0
+          maxItems: 99999
+          items:
+            type: object
+            properties:
+              Id: 
+                description:  Unique photo identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "#P1234"
+                minLength: 3
+                maxLength: 16
+              userId:
+                description: Unique user identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "#U5678" 
+                minLength: 3
+                maxLength: 16
+              file: 
+                description: file
+                type: string
+                format: binary
+                minLength: 3
+                maxLength: 16
+              date:
+                description: Registration date.
+                type: string
+                format: date-time
+                example: "2022-11-02T09:00:00Z"
+                minLength: 3
+                maxLength: 9999
+              likeCount:
+                description: photo likes count.
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              commentCount:
+                description: photo comments count.
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              likeStatus:
+                description: photo like status.
+                type: boolean
+                example: true
+    
+    stream: 
+      title: Stream
+      description: Stream schema.
+      type: object
+      properties:
+        identifier:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "#U1234" 
+          minLength: 3
+          maxLength: 16
+        photos: 
+          description: list of objects (each object is a photo)
+          type: array
+          minItems: 0
+          maxItems: 99999
+          items:
+            type: object
+            properties:
+              Id: 
+                description:  Unique photo identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "#P1234"
+                minLength: 3
+                maxLength: 16
+              userId:
+                description: Unique user identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "#U5678" 
+                minLength: 3
+                maxLength: 16
+              username:
+                description: User username.
+                type: string
+                pattern: '^.*?$'
+                example: bea
+                minLength: 3
+                maxLength: 16
+              file: 
+                description: file
+                type: string
+                format: binary
+                minLength: 3
+                maxLength: 16
+              date:
+                description: Registration date.
+                type: string
+                format: date-time
+                example: "2022-11-02T09:00:00Z"
+                minLength: 3
+                maxLength: 9999
+              likeCount:
+                description: photo likes count.
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              commentCount:
+                description: photo comments count.
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              likeStatus:
+                description: photo like status.
+                type: boolean
+                example: true
+  
+    login:        
+      title: Login
+      description: Login schema.
+      type: object
+      properties:
+        username:
+          description: user
+          type: string
+          example: bea
+          pattern: '^.*?$'
+          minLength: 3
+          maxLength: 16
  
-      Like:
-          title: Like 
-          description: Like.
-          type: object
-          properties:
-           likeid:
-            description: likeid
-            type: string
-            pattern: '^.*?$'
-            example: "94838"
-            minLength: 3
-            maxLength: 16
-           userid:
-            description: userid
-            type: string
-            pattern: '^.*?$'
-            example: "37732" 
-            minLength: 3
-            maxLength: 16
-           phid: 
-            description: photo identifier.
-            type: string
-            pattern: '^.*?$'
-            example: "321"
-            minLength: 3
-            maxLength: 16
-           photouser:
-            description: user identifier.
-            type: string
-            pattern: '^.*?$'
-            example: "31313"
-            minLength: 3
-            maxLength: 16
-
-      Photo:
-       title: Photo
-       description: photo
-       properties:
-        phid: 
-          description: photo identifier.
+    photo:
+      title: Photo
+      description: photo schema.
+      properties:
+        Id: 
+          description:  Unique photo identifier.
           type: string
           pattern: '^.*?$'
-          example: "3445"
+          example: "#P1234"
           minLength: 3
           maxLength: 16
-        userid:
-          description: user identifier.
+        userId:
+          description: Unique user identifier.
           type: string
           pattern: '^.*?$'
-          example: "87866" 
+          example: "#U5678" 
           minLength: 3
           maxLength: 16
-        fileid: 
-          description: file
-          type: string
-          format: binary
-          minLength: 3
-          maxLength: 16
-        dateid:
-          description: date.
+        file: 
+            description: file
+            type: string
+            format: binary
+            minLength: 1
+            maxLength: 9999
+        date:
+          description: Registration date.
           type: string
           format: date-time
           example: "2022-11-02T09:00:00Z"
           minLength: 3
           maxLength: 9999
-        likeInc:
-          description: likes count
+        likeCount:
+          description: photo likes count.
           type: integer
           example: 0
           minimum: 0
           maximum: 9999
-        commentInc:
-          description: photo count
+        commentCount:
+          description: photo comments count.
           type: integer
           example: 0
           minimum: 0
           maximum: 9999
-        likestate:
-          description: like status
+        likeStatus:
+          description: photo like status.
           type: boolean
-          example: true
+          example: true      
   
+    comment:
+      title: Comment
+      type: object
+      description: comment schema.
+      properties:
+        content:
+          description: content
+          type: string
+          example: Hello World!
+          pattern: '^.*?$'
+          minLength: 1
+          maxLength: 40  
+
+   
