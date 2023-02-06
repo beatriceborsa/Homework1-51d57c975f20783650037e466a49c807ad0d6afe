@@ -1,0 +1,982 @@
+openapi: 3.0.3
+info:
+  title: Wasa Photo
+  description: This OpenAPI document describes the simplified login API.
+  version: '1'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: bborsa15@outlook.it
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Find out more about Swagger
+  url: https://github.com/beatricebo
+servers:
+  - url: https://wasainsta.swagger.io/api/v3
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Logs in the user
+      description:
+        If the user does not exist, it will be created,
+        and an identifier is returned.
+        If the user exists, the user identifier is returned.
+      operationId: doLogin
+      requestBody:
+        description: User details
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+        required: true
+      responses:
+        '201':
+          description: User log-in action successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: integer
+                    example: 012345
+      security:
+         - bearerAuth: []          
+  /user/{username}/setusername:
+   parameters:
+    - $ref: "#/components/parameters/username"
+      put:
+        tags:
+          - User
+        summary: Set the new name
+        description: this method allows to set a new name to the database
+        operationId: setMyUserName
+        requestBody:
+          description: Create or change a new name
+          content:
+           application/json:
+             schema:
+              $ref: '#/components/schemas/User'
+        responses:
+          default:
+            description: successful operation   
+        security:
+         - bearerAuth: []  
+         
+  /users/{username}/follow/{followid}:
+    parameters:
+       - $ref: "#/components/parameters/username"
+       - $ref: "#/components/parameters/followid"
+    put:
+        tags: 
+          - User
+        summary: Follow another user 
+        description: this method allows to follow a user of your choice
+        operationId: followUser
+        requestBody:
+          description: Add a new follow
+          content:
+           application/json:
+             schema:
+              $ref: '#/components/schemas/User'
+        responses:
+         '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/User'   
+         '404':
+          description: User not follow
+        security:
+         - bearerAuth: []      
+    delete:
+        tags:
+         - User
+        summary: Delete follow
+        description: this method allows to delete a follows to the database
+        operationId: unfollowUser
+        responses:
+          '400':
+           description: Invalid ID supplied
+          '404':
+           description: User not unfollow
+        security:
+         - bearerAuth: []         
+
+  /users/{username}/ban/{banid}:
+   parameters:
+         - $ref : "#/components/parameters/username"
+         - $ref : "#/components/parameters/banid"
+   put:
+        tags: 
+          - User
+        summary: Ban a user 
+        description: this method allows to ban a user of your choice
+        operationId: banUser
+        requestBody:
+          description: Ban a user 
+          content:
+           application/json:
+             schema:
+              $ref: '#/components/schemas/User'
+        responses:
+         '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/User'   
+         '404':
+          description: User not ban
+        security:
+         - bearerAuth: []       
+   delete:
+        tags:
+         - User
+        summary: Delete ban
+        description: This method allows to delete a follows to the database
+        operationId: unbanUser
+        responses:
+          '400':
+           description: Invalid ID supplied
+          '404':
+           description: User not unbanned
+        security:
+         - bearerAuth: []    
+             
+  /users/{username}/userprofile:
+   parameters:
+     - $ref: "#/components/parameters/username"
+   get:
+         tags:
+           - User
+         summary: Get user profile by Username
+         description: This method allows to obtain the user profile 
+         operationId: getUserProfile
+         responses:
+           '200': 
+             description: successful operation
+             content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'          
+              application/xml:
+                schema:
+                  $ref: '#/components/schemas/User'
+           '400':
+             description: Invalid Username supplied
+           '404':
+             description: User not found
+         security:
+          - bearerAuth: []      
+  /users/{username}/photo/{phid}: 
+   parameters:
+     - $ref : "#/components/parameters/username"
+     - $ref : "#/components/parameters/phid"
+   put:
+      tags:
+        - Photo
+      summary: Uploads an image
+      description: You can upload an image to your profile
+      operationId: uploadPhoto
+      requestBody:
+        description: photo
+        required: true
+        content:
+          image/*:
+            schema:
+              description: Image
+              type: object
+              properties:
+                 file: 
+                  description: file
+                  type: string
+                  format: binary
+                  minLength: 0
+                  maxLength: 9999 
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+      security:
+         - bearerAuth: []    
+   delete:
+      tags:
+        - Photo
+      summary: Delete photo by ID
+      description: You can delete a photo
+      operationId: deletePhoto
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Photo not found
+      security:
+         - bearerAuth: []    
+         
+  /users/{username}/photo/{phid}/like/{likeid}:    
+   parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref : "#/components/parameters/phid"
+        - $ref : "#/components/parameters/likeid"
+   put:
+      tags:
+        - Photo
+      summary: Put a like 
+      description: You can like a photo
+      operationId: likePhoto
+      requestBody:
+        description: That photo was liked
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Photo'
+      responses:
+        default:
+          description: successful operation
+      security:
+         - bearerAuth: []    
+   delete:
+      tags:
+        - Photo
+      summary: Unlike a photo
+      description: You can unlike a photo
+      operationId: unlikePhoto
+     
+      responses:
+        '400':
+          description: Invalid photo supplied
+        '404':
+          description: Photo not found
+      security:
+         - bearerAuth: []     
+
+  /users/{username}/photo/{phid}/comment/{commentid}:
+   parameters:
+       - $ref: "#/components/parameters/username"
+       - $ref: "#/components/parameters/phid"
+       - $ref: "#/components/parameters/commentid"
+   put:
+      tags:
+        - Photo
+      summary: Leave a comment under a photo
+      description: Place a new conment under a photo
+      operationId: commentPhoto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentArray'
+        '405':
+          description: Invalid input
+      security:
+         - bearerAuth: []  
+         
+   delete:
+      tags:
+        - Photo
+      summary: Delete a comment by id comment
+      description: You can delete a comment if you want
+      operationId: uncommentPhoto   
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Comment not found
+      security:
+         - bearerAuth: []    
+         
+  /user/{username}/phuser:
+   parameters: 
+     - $ref : "#/components/parameters/username"
+   get:
+      tags:
+        - Photo
+      summary: Returns user photo by username
+      description: Returns a map of photos
+      operationId: getPhotoUser
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+         - bearerAuth: []  
+
+  /user/{username}/streamuser:
+   parameters: 
+       - $ref: "#/components/parameters/username"
+   get:
+      tags:
+        - Photo
+      summary: Returns stream by username
+      description: Returns a map of photos
+      operationId: getMyStream
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+         - bearerAuth: []    
+
+  /user/{username}/userban:
+   parameters: 
+       - $ref: "#/components/parameters/username"
+   get:
+      tags:
+        - User
+      summary: Returns ban
+      description: Returns an user ban
+      operationId: getUserBan
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+         - bearerAuth: []                    
+  /user/{username}/userfollow:
+   parameters: 
+       - $ref: "#/components/parameters/username"
+   get:
+      tags:
+        - User
+      summary: Returns sfollow
+      description: Returns an user follow
+      operationId: getUserFollow
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+         - bearerAuth: []
+
+  /users/{username}/photo/{phid}/like:
+   parameters: 
+         - $ref: "#/components/parameters/username"
+         - $ref : "#/components/parameters/phid"
+   get:
+      tags:
+        - Photo
+      summary: Returns a like
+      description: Returns a like from photo.
+      operationId: getUserLike
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+         - bearerAuth: []                  
+  /users/{username}/photo/{phid}/comment:
+   parameters: 
+       - $ref: "#/components/parameters/username"
+       - $ref: "#/components/parameters/phid"
+   get:
+      tags:
+        - Photo
+      summary: Returns a comment
+      description: Returns a comment from photo.
+      operationId: getUserComment
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+         - bearerAuth: []
+
+tags:
+  - name: "Login"
+    description: "Endpoints for Login"
+  - name: "User"
+    description: "Endpoints for User"
+  - name: "Photo"
+    description: "Endpoints for Photo"
+  - name: "Ban"
+    description: "Endpoints for ban"
+  - name: "Follow"
+    description: "Endpoints for follow"
+  - name: "Like"
+    description: "Endpoints for like"
+  - name: "Comment"
+    description: "Endpoints for comment"         
+
+components:
+   securitySchemes:
+     bearerAuth:             
+       type: http
+       scheme: bearer
+       bearerFormat: JWT
+
+   parameters:
+   
+    username:
+      schema:
+          description: username
+          type: string
+          pattern: '^.*?$'
+          example: bea
+          minLength: 5
+          maxLength: 30
+      name: username
+      in: path
+      required: true
+      description: "username of user."
+    
+    phid:
+      schema:
+        description: photo id .
+        type: string
+        pattern: '^.*?$'
+        example: "123"
+        minLength: 3
+        maxLength: 16
+      name: phid 
+      in: path
+      required: true
+      description: "photo of user"
+    
+    commentid:
+      schema:
+        description: commentiD 
+        type: string
+        pattern: '^.*?$'
+        example: "#C1234"
+        minLength: 3
+        maxLength: 16
+      name: commentid
+      in: path
+      required: true
+      description: "comment of photo"
+
+    likeid:
+      schema:
+        description: likeiD 
+        type: string
+        pattern: '^.*?$'
+        example: "#L1234"
+        minLength: 3
+        maxLength: 16
+      name: likeid
+      in: path
+      required: true
+      description: "like of photo"
+
+    followid:
+      schema:
+        description: followid
+        type: string
+        pattern: '^.*?$'
+        example: "#F1234"
+        minLength: 3
+        maxLength: 16
+      name: followid
+      in: path
+      required: true
+      description: "follow of user"
+
+    banid:
+      schema:
+        description: banid 
+        type: string
+        pattern: '^.*?$'
+        example: "#B1234"
+        minLength: 3
+        maxLength: 16
+      name: banid
+      in: path
+      required: true
+      description: "ban of user"  
+       
+   schemas:
+
+      User:
+       type: object
+       properties:
+        identifier:
+          description: Unique identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "3737"
+          minLength: 3
+          maxLength: 16
+        username:
+          type: string
+          example: Bea
+      Login:        
+        title: Login
+        description: Login.
+        type: object
+        properties:
+          username:
+           description: user
+           type: string
+           example: Beatrice
+           pattern: '^.*?$'
+           minLength: 3
+           maxLength: 16
+
+      UserProfile:
+        type: object
+        properties:
+         identifier:
+          description: Unique identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "314"
+          minLength: 3
+          maxLength: 16
+         id:
+          description: Unique identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "2424"
+          minLength: 3
+          maxLength: 16  
+         username:
+          type: string
+          example: bea
+         followersInc:
+          description: Number of followers
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+         followingsInc:
+          description: Number of followings
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+         photoInc:
+          description: Number of photos
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+         iffollow:
+          description: User follow status
+          type: boolean
+          example: false
+         ifban:
+          description: User ban status
+          type: boolean
+          example: false
+         ifbanned:
+          description: Check if user is banned
+          type: boolean
+          example: false        
+
+      Ban:
+        type: object
+        properties:
+         banid:
+          description: banid.
+          type: string
+          pattern: '^.*?$'
+          example: "234"
+          minLength: 3
+          maxLength: 16
+         userid:
+          description: userid.
+          type: string
+          pattern: '^.*?$'
+          example: "14"
+          minLength: 3
+          maxLength: 16
+         bannedid:
+          description: bannedid.
+          type: string
+          pattern: '^.*?$'
+          example: "142"
+          minLength: 3
+          maxLength: 16
+      Follow:
+        type: object
+        properties:
+         followid:
+          description: followid.
+          type: string
+          pattern: '^.*?$'
+          example: "4124"
+          minLength: 3
+          maxLength: 16
+         userid:
+          description: userid.
+          type: string
+          pattern: '^.*?$'
+          example: "414424"
+          minLength: 3
+          maxLength: 16
+         followedid:
+          description: followedid.
+          type: string
+          pattern: '^.*?$'
+          example: "4124"
+          minLength: 3
+          maxLength: 16     
+
+      PhotoArray:
+        type: object
+        properties:
+         identifier:
+          description: user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "4124" 
+          minLength: 3
+          maxLength: 16
+         userid:
+          description: user id.
+          type: string
+          pattern: '^.*?$'
+          example: "4141" 
+          minLength: 3
+          maxLength: 16
+         photos: 
+          description: list of photo
+          type: array
+          minItems: 0
+          maxItems: 99999
+          items:
+            type: object
+            properties:
+              phid: 
+                description: photo id.
+                type: string
+                pattern: '^.*?$'
+                example: "4124"
+                minLength: 3
+                maxLength: 16
+              userid:
+                description: userid.
+                type: string
+                pattern: '^.*?$'
+                example: "4141" 
+                minLength: 3
+                maxLength: 16
+              fileid: 
+                description: file
+                type: string
+                format: binary
+                minLength: 3
+                maxLength: 16
+              dateid:
+                description: date
+                type: string
+                format: date-time
+                example: "2022-11-02T09:00:00Z"
+                minLength: 3
+                maxLength: 9999
+              likeInc:
+                description: likes count
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              commentInc:
+                description: photo count
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              likestate:
+                description: like status
+                type: boolean
+                example: true
+      Photostream: 
+         title: Stream photo of users.
+         description: Stream photo.
+         type: object
+         properties:
+          identifier:
+           description: user id.
+           type: string
+           pattern: '^.*?$'
+           example: "312" 
+           minLength: 3
+           maxLength: 16
+          photos: 
+            description: list of photos
+            type: array
+            minItems: 0
+            maxItems: 99999
+          items:
+            type: object
+            properties:
+              arrayphid: 
+                description: phid.
+                type: string
+                pattern: '^.*?$'
+                example: "31323"
+                minLength: 3
+                maxLength: 16
+              userid:
+                description: userid.
+                type: string
+                pattern: '^.*?$'
+                example: "32132" 
+                minLength: 3
+                maxLength: 16
+              username:
+                description: User username.
+                type: string
+                pattern: '^.*?$'
+                example: bea
+                minLength: 3
+                maxLength: 16
+              fileid: 
+                description: file
+                type: string
+                format: binary
+                minLength: 3
+                maxLength: 16
+              dateid:
+                description: date.
+                type: string
+                format: date-time
+                example: "2022-11-02T09:00:00Z"
+                minLength: 3
+                maxLength: 9999
+              likeInc:
+                description: likes count
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              commentInc:
+                description: photo count
+                type: integer
+                example: 0
+                minimum: 0
+                maximum: 9999
+              likestate:
+                description: like status
+                type: boolean
+                example: true
+      CommentArray: 
+        title: Comments
+        description: Comment
+        type: object
+        properties:
+         arraycommentid:
+          description: user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "1241"
+          minLength: 3
+          maxLength: 16
+         phid: 
+          description: photo identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "2132"
+          minLength: 3
+          maxLength: 16
+         photouser:
+          description: Unique user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "123"
+          minLength: 3
+          maxLength: 16
+         comments: 
+          description: list of objects
+          type: array
+          minItems: 0
+          maxItems: 99999
+          items:
+            type: object
+            properties:
+              commentid:
+                description: comment identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "#C1234"
+                minLength: 3
+                maxLength: 16
+              userid:
+                description: user identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "1231" 
+                minLength: 3
+                maxLength: 16
+              phid: 
+                description: photo identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "#P1234"
+                minLength: 3
+                maxLength: 16
+              photouser:
+                description: user identifier.
+                type: string
+                pattern: '^.*?$'
+                example: "1234"
+                minLength: 3
+                maxLength: 16
+              photousernameuser:
+                description: User username.
+                type: string
+                pattern: '^.*?$'
+                example: bea
+                minLength: 3
+                maxLength: 16
+              username:
+                description: User username.
+                type: string
+                pattern: '^.*?$'
+                example: bea
+                minLength: 3
+                maxLength: 16
+              content:
+                description: Content of the comment.
+                type: string
+                pattern: '^.*?$'
+                example: "Mi piace la tua foto"
+                minLength: 2
+                maxLength: 30
+
+      Comment:
+          title: Comment
+          type: object
+          description: Comment
+          properties:
+           content:
+            description: content
+            type: string
+          example: Mi piace la tua foto.
+          pattern: '^.*?$'
+          minLength: 1
+          maxLength: 40 
+ 
+      Like:
+          title: Like 
+          description: Like.
+          type: object
+          properties:
+           likeid:
+            description: likeid
+            type: string
+            pattern: '^.*?$'
+            example: "94838"
+            minLength: 3
+            maxLength: 16
+           userid:
+            description: userid
+            type: string
+            pattern: '^.*?$'
+            example: "37732" 
+            minLength: 3
+            maxLength: 16
+           phid: 
+            description: photo identifier.
+            type: string
+            pattern: '^.*?$'
+            example: "321"
+            minLength: 3
+            maxLength: 16
+           photouser:
+            description: user identifier.
+            type: string
+            pattern: '^.*?$'
+            example: "31313"
+            minLength: 3
+            maxLength: 16
+
+      Photo:
+       title: Photo
+       description: photo
+       properties:
+        phid: 
+          description: photo identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "3445"
+          minLength: 3
+          maxLength: 16
+        userid:
+          description: user identifier.
+          type: string
+          pattern: '^.*?$'
+          example: "87866" 
+          minLength: 3
+          maxLength: 16
+        fileid: 
+          description: file
+          type: string
+          format: binary
+          minLength: 3
+          maxLength: 16
+        dateid:
+          description: date.
+          type: string
+          format: date-time
+          example: "2022-11-02T09:00:00Z"
+          minLength: 3
+          maxLength: 9999
+        likeInc:
+          description: likes count
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+        commentInc:
+          description: photo count
+          type: integer
+          example: 0
+          minimum: 0
+          maximum: 9999
+        likestate:
+          description: like status
+          type: boolean
+          example: true
+  
