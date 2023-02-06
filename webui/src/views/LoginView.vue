@@ -48,11 +48,11 @@ export default {
 <template>
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Welcome to WASAPhoto</h1>
+        <h1 class="h2">Login in WASAPHOTO-BB</h1>
     </div>
     <div class="input-group mb-3">
         <input type="text" id="username" v-model="username" class="form-control"
-            placeholder="Insert a username to log in WASAPhoto." aria-label="Recipient's username"
+            placeholder="Push a username to log in WASAPHOTO-BB." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
         <div class="input-group-append">
             <button class="btn btn-success" type="button" @click="doLogin">Login</button>
@@ -61,6 +61,11 @@ export default {
     <ErrorMsg v-if="errormsg" :msg="errormsg"></ErrorMsg>
 </template>
 
-<style>
-
+<style scoped>
+    .h2{
+    color: blueviolet;
+    padding-left: 15rem;
+    text-decoration-line: underline;
+    font-family: "Lucida Console", "Courier New", monospace;
+    } 
 </style>
