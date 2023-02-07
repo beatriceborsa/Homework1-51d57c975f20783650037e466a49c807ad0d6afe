@@ -295,6 +295,12 @@ export default {
                         </svg>
                         HOME
                     </RouterLink>
+                    <RouterLink to="/users/:username/profile" class="nav-link" @click="userProfile">
+							<svg class="feather">
+								<use href="/feather-sprite-v4.29.0.svg#home" />
+							</svg>
+						MY PROFILE
+					</RouterLink>
                 </li>
             </ul>
         </div>
