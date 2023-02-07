@@ -293,7 +293,7 @@ export default {
                         <svg class="feather">
                             <use href="/feather-sprite-v4.29.0.svg#home" />
                         </svg>
-                        Home
+                        HOME
                     </RouterLink>
                 </li>
             </ul>

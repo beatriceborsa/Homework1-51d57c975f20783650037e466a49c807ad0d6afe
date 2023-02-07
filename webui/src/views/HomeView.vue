@@ -295,7 +295,13 @@ export default {
 							<svg class="feather">
 								<use href="/feather-sprite-v4.29.0.svg#home" />
 							</svg>
-							Home
+							HOME
+						</RouterLink>
+						<RouterLink to="/users/:username/profile" class="nav-link" @click="ViewProfile">
+							<svg class="feather">
+								<use href="/feather-sprite-v4.29.0.svg#love" />
+							</svg>
+							MY PROFILE
 						</RouterLink>
 					</li>
 				</ul>
@@ -307,7 +313,6 @@ export default {
 			<div class="btn-toolbar mb-2 mb-md-0">
 				<div class="btn-group me-2">
 					<button class="btn btn-danger" type="button" @click="doLogout">Logout</button>
-					<button class="btn btn-primary" type="button" @click="ViewProfile">Profile</button>
 					<input type="file" accept="image/*" class="btn btn-outline-primary" @change="uploadFile" ref="file">
 					<button class="btn btn-success" @click="submitFile">Upload</button>
 				</div>
