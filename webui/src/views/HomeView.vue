@@ -325,7 +325,7 @@ export default {
 				aria-describedby="basic-addon2">
 			<div class="input-group-append">
 				<button class="btn btn-primary" type="button" @click="SearchUser">Search</button>
-				<v-btn elevation="2"></v-btn>
+				
 			</div>
 		</div>
 
