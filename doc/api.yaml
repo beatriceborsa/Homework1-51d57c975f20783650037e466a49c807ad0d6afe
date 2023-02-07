@@ -308,7 +308,7 @@ paths:
         - Photo
       summary: Returns user photo by username
       description: Returns a map of photos
-      operationId: getPhotoUser
+      operationId: getUserPhotos
       responses:
         '200':
           description: successful operation
@@ -352,7 +352,7 @@ paths:
         - User
       summary: Returns ban
       description: Returns an user ban
-      operationId: getUserBan
+      operationId: getBans
       responses:
         '200':
           description: successful operation
@@ -373,7 +373,7 @@ paths:
         - User
       summary: Returns sfollow
       description: Returns an user follow
-      operationId: getUserFollow
+      operationId: getFollowers
       responses:
         '200':
           description: successful operation
@@ -396,7 +396,7 @@ paths:
         - Photo
       summary: Returns a like
       description: Returns a like from photo.
-      operationId: getUserLike
+      operationId: getLikes
       responses:
         '200':
           description: successful operation
@@ -418,7 +418,7 @@ paths:
         - Photo
       summary: Returns a comment
       description: Returns a comment from photo.
-      operationId: getUserComment
+      operationId: getComments
       responses:
         '200':
           description: successful operation
