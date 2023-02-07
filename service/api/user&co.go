@@ -32,14 +32,14 @@ func (rt *_router) setMyUserName(w http.ResponseWriter, r *http.Request, ps http
 	username := ps.ByName("username")
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	token := getToken(r.Header.Get("Authorization"))
 	user.Id = token
 	dbuser, err := rt.db.SetUsername(user.ToDatabase(), username)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusConflict)
 		return
 	}
 	user.FromDatabase(dbuser)

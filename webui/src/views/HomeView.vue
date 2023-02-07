@@ -309,7 +309,7 @@ export default {
 		</nav>
 		<div
 			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h1 class="h2">Welcome back {{this.username }}</h1>
+			<h1 class="h2">Welcome back {{ this.username }}</h1>
 			<div class="btn-toolbar mb-2 mb-md-0">
 				<div class="btn-group me-2">
 					<button class="btn btn-danger" type="button" @click="doLogout">Logout</button>
@@ -325,6 +325,7 @@ export default {
 				aria-describedby="basic-addon2">
 			<div class="input-group-append">
 				<button class="btn btn-primary" type="button" @click="SearchUser">Search</button>
+				<v-btn elevation="2"></v-btn>
 			</div>
 		</div>
 
@@ -344,18 +345,18 @@ export default {
 					<img class="card-img-top" :src=photo.file alt="Card image cap">
 					<div class="card-body">
 						<RouterLink :to="'/users/' + photo.username + '/view'" class="nav-link">
-							<button type="button" class="btn btn-outline-primary">{{photo.username}}</button>
+							<button type="button" class="btn btn-outline-primary">{{ photo.username }}</button>
 						</RouterLink>
 						<div
 							class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
-							<p class="card-text">Likes : {{photo.likeCount}}</p>
+							<p class="card-text">Likes : {{ photo.likeCount }}</p>
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
-							<p class="card-text">Comments : {{photo.commentCount}}</p>
+							<p class="card-text">Comments : {{ photo.commentCount }}</p>
 						</div>
-						<p class="card-text">Uploaded on : {{photo.date}}</p>
+						<p class="card-text">Uploaded on : {{ photo.date }}</p>
 
 						<div class="input-group mb-3">
 							<input type="text" id="comment" v-model="photo.comment" class="form-control"
@@ -371,9 +372,9 @@ export default {
 							<div class="btn-group">
 								<button type="button" class="btn btn-dark"
 									@click="openLog(photo.username, photo.id)">Comments</button>
-								<button type="button" v-if="photo.likeStatus==false" class="btn btn-primary"
+								<button type="button" v-if="photo.likeStatus == false" class="btn btn-primary"
 									@click="likePhoto(photo.username, photo.id)">Like</button>
-								<button type="button" v-if="photo.likeStatus==true" class="btn btn-danger"
+								<button type="button" v-if="photo.likeStatus == true" class="btn btn-danger"
 									@click="deleteLike(photo.username, photo.id)">Unlike</button>
 							</div>
 						</div>
