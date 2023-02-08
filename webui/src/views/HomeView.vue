@@ -321,10 +321,7 @@ export default {
 			<input type="text" id="searchUserUsername" v-model="searchUserUsername" class="form-control"
 				placeholder="Search a user in WASAPhoto." aria-label="Recipient's username"
 				aria-describedby="basic-addon2">
-			<div class="input-group-append">
-				<button class="btn btn-primary" type="button" @click="SearchUser">Search</button>
-				
-			</div>
+			<button class="btn btn-primary" type="button" @click="SearchUser">Search</button>
 		</div>
 
 		<div
@@ -350,7 +347,7 @@ export default {
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
 							<p class="card-text">Likes : {{ photo.likeCount }}</p>
-							<font-awesome-icon icon="fa-solid fa-heart" />
+
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
 							<p class="card-text">Comments : {{ photo.commentCount }}</p>
@@ -373,7 +370,7 @@ export default {
 									@click="openLog(photo.username, photo.id)">Comments</button>
 								<button type="button" v-if="photo.likeStatus == false" class="btn btn-primary"
 									@click="likePhoto(photo.username, photo.id)">Like
-									<font-awesome-icon icon="fa-solid fa-heart" />
+
 								</button>
 								<button type="button" v-if="photo.likeStatus == true" class="btn btn-danger"
 									@click="deleteLike(photo.username, photo.id)">Unlike</button>
@@ -389,5 +386,11 @@ export default {
 </template>
 
 <style>
+.btn {
+	border-radius: 10rem;
+}
 
+.form-control {
+	border-radius: 10rem;
+}
 </style>

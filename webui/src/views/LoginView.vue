@@ -1,4 +1,5 @@
 <script>
+import image from "../assets/logo(1).png"
 export default {
     components: {},
     data: function () {
@@ -9,6 +10,7 @@ export default {
                 id: 0,
                 username: "",
             },
+            image: image
         }
     },
     methods: {
@@ -46,26 +48,33 @@ export default {
 </script>
 
 <template>
-    <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Login in WASAPHOTO-BB</h1>
-    </div>
-    <div class="input-group mb-3">
-        <input type="text" id="username" v-model="username" class="form-control"
-            placeholder="Push a username to log in WASAPHOTO-BB." aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-success" type="button" @click="doLogin">Login</button>
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <img :src="image" />
         </div>
-    </div>
-    <ErrorMsg v-if="errormsg" :msg="errormsg"></ErrorMsg>
+        <div class="input-group">
+            <input type="text" id="username" v-model="username" class="form-control"
+                placeholder="Push a username to log in WASAPHOTO-BB." aria-label="Recipient's username"
+                aria-describedby="basic-addon2">
+                <button class="btn btn-success" type="button" @click="doLogin">Login</button>
+        </div>
+        <ErrorMsg v-if="errormsg" :msg="errormsg"></ErrorMsg>
 </template>
 
 <style scoped>
-    .h2{
+.h2 {
     color: blueviolet;
     padding-left: 15rem;
     text-decoration-line: underline;
     font-family: "Lucida Console", "Courier New", monospace;
-    } 
+}
+.btn{
+border-radius: 10rem;
+}
+.form-control{
+    border-radius: 10rem;
+}
+.input-group{
+    padding-right: 10rem;
+}
 </style>

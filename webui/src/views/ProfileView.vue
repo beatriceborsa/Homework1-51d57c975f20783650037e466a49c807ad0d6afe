@@ -148,7 +148,7 @@ export default {
                     if (e.response && e.response.status === 400) {
                         this.errormsg = "Form error, please check all fields and try again. If you think that this is an error, write an e-mail to us.";
                         this.detailedmsg = null;
-                    } else if (e.response && e.response.status === 500) {
+                    } else if (e.response && e.response.status === 409) {
                         this.errormsg = "An internal error occurred. We will be notified. Please try again later.";
                         this.detailedmsg = e.toString();
                     } else {
@@ -159,7 +159,7 @@ export default {
             }
 
         },
-        async sendComment(username, photoid,comment) {
+        async sendComment(username, photoid, comment) {
             if (comment === "") {
                 this.errormsg = "Emtpy comment field."
             } else {
@@ -296,9 +296,9 @@ export default {
                         HOME
                     </RouterLink>
                     <RouterLink to="/users/:username/profile" class="nav-link" @click="userProfile">
-						<font-awesome-icon icon="fa-solid fa-user" />
-						MY PROFILE
-					</RouterLink>
+                        <font-awesome-icon icon="fa-solid fa-user" />
+                        MY PROFILE
+                    </RouterLink>
                 </li>
             </ul>
         </div>
@@ -327,9 +327,8 @@ export default {
         <input type="text" id="newUsername" v-model="newUsername" class="form-control"
             placeholder="Insert a new username for your profile..." aria-label="Recipient's username"
             aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-success" type="button" @click="changeName">Change username</button>
-        </div>
+        <button class="btn btn-success" type="button" @click="changeName">Change username</button>
+
     </div>
 
     <div
@@ -343,7 +342,7 @@ export default {
     <div class="row">
         <div class="col-md-4" v-for="photo in photoList.photos" :key="photo.id">
             <div class="card mb-4 shadow-sm">
-                <img class="card-img-top" :src=photo.file alt="Card image cap">
+                <img class="card-img-top" :src=photo.file alt="PHOTOCARD">
                 <div class="card-body">
                     <RouterLink :to="'/users/' + profile.username + '/profile'" class="nav-link">
                         <button type="button" class="btn btn-outline-primary">{{ profile.username }}</button>
@@ -360,17 +359,16 @@ export default {
                     <p class="card-text">Photo uploaded on {{ photo.date }}</p>
 
                     <div class="input-group mb-3">
-                        <input type="text" id="comment" v-model="photo.comment" class="form-control" placeholder="Comment!"
-                          aria-describedby="basic-addon2">
-                        <div class="input-group-append">
+                        <input type="text" id="comment" v-model="photo.comment" class="form-control"
+                            placeholder="Comment here." aria-describedby="basic-addon2">
                             <button class="btn btn-primary" type="button"
                                 @click="sendComment(username, photo.id, photo.comment)">Send</button>
-                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-dark" @click="openLog(username, photo.id)">Comments</button>
+                            <button type="button" class="btn btn-dark"
+                                @click="openLog(username, photo.id)">Comments</button>
                             <button type="button" v-if="photo.likeStatus == false" class="btn btn-primary"
                                 @click="likePhoto(username, photo.id)">Like</button>
                             <button type="button" v-if="photo.likeStatus == true" class="btn btn-danger"
@@ -388,4 +386,7 @@ export default {
 </template>
 
 <style>
+.form-control{
+    border-radius: 10rem;
+}
 </style>

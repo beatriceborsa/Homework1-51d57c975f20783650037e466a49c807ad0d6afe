@@ -1,19 +1,25 @@
 <template>
     <div :class="{ loader: true, fadeout: !isLoading }">
-        WELCOME TO WASAPHOTO-BB
+        <img :src="image" />
     </div>
 </template>
 
 <script>
+import image from "../assets/logo.png"
 export default {
     name: "SplashScreen",
-    props: ["isLoading"]
+    props: ["isLoading"],
+    data() {
+        return {
+            image: image
+        }
+    },
 };
 </script>
 
 <style>
 .loader {
-    background-color: #ab639e;
+    background-color: #ffffff;
     bottom: 0;
     color: white;
     display: block;
@@ -28,7 +34,7 @@ export default {
 }
 
 .fadeout {
-    animation: fadeout 5s forwards;
+    animation: fadeout 3s forwards;
 }
 
 @keyframes fadeout {
