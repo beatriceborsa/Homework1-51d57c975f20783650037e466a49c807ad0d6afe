@@ -298,9 +298,7 @@ export default {
 							HOME
 						</RouterLink>
 						<RouterLink to="/users/:username/profile" class="nav-link" @click="ViewProfile">
-							<svg class="feather">
-								<use href="/feather-sprite-v4.29.0.svg#love" />
-							</svg>
+							<font-awesome-icon icon="fa-solid fa-user" />
 							MY PROFILE
 						</RouterLink>
 					</li>
@@ -309,7 +307,7 @@ export default {
 		</nav>
 		<div
 			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h1 class="h2">Welcome back {{ this.username }}</h1>
+			<h1 class="h2">WELCOME BACK {{ this.username }}</h1>
 			<div class="btn-toolbar mb-2 mb-md-0">
 				<div class="btn-group me-2">
 					<button class="btn btn-danger" type="button" @click="doLogout">Logout</button>
@@ -352,6 +350,7 @@ export default {
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
 							<p class="card-text">Likes : {{ photo.likeCount }}</p>
+							<font-awesome-icon icon="fa-solid fa-heart" />
 						</div>
 						<div class="d-flex justify-content-between align-items-center">
 							<p class="card-text">Comments : {{ photo.commentCount }}</p>
@@ -373,7 +372,9 @@ export default {
 								<button type="button" class="btn btn-dark"
 									@click="openLog(photo.username, photo.id)">Comments</button>
 								<button type="button" v-if="photo.likeStatus == false" class="btn btn-primary"
-									@click="likePhoto(photo.username, photo.id)">Like</button>
+									@click="likePhoto(photo.username, photo.id)">Like
+									<font-awesome-icon icon="fa-solid fa-heart" />
+								</button>
 								<button type="button" v-if="photo.likeStatus == true" class="btn btn-danger"
 									@click="deleteLike(photo.username, photo.id)">Unlike</button>
 							</div>
