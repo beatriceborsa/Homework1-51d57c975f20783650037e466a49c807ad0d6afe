@@ -28,7 +28,7 @@ func (rt *_router) likePhoto(w http.ResponseWriter, r *http.Request, ps httprout
 	}
 	likeid, err := strconv.ParseUint(ps.ByName("likeid"), 10, 64)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	like.LikeId = likeid
@@ -38,7 +38,7 @@ func (rt *_router) likePhoto(w http.ResponseWriter, r *http.Request, ps httprout
 	like.PhotoOwner = user.Id
 	dblike, err := rt.db.SetLike(like.LikeToDatabase())
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	like.LikeFromDatabase(dblike)

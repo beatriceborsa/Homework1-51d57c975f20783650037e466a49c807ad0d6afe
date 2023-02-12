@@ -20,8 +20,7 @@ paths:
       tags:
         - Login
       summary: Logs in the user
-      description:
-        If the user does not exist, it will be created,
+      description: If the user does not exist, it will be created,
         and an identifier is returned.
         If the user exists, the user identifier is returned.
       operationId: doLogin
@@ -162,9 +161,6 @@ paths:
              description: successful operation
              content:
               application/json:
-                schema:
-                  $ref: '#/components/schemas/user'          
-              application/xml:
                 schema:
                   $ref: '#/components/schemas/user'
            '400':
